@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import Final
 
 from exo_pyo3_bindings import Pidfile, PidfileError
@@ -15,6 +16,7 @@ class PidfileLockError(RuntimeError):
 
 def acquire_exo_pidfile() -> Pidfile:
     path = EXO_PID_FILE
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     try:
         pidfile = Pidfile(path, _PIDFILE_MODE)
         pidfile.write()
